@@ -1,4 +1,4 @@
-node-at-home
+Node@home
 ============
 
 Lightweight, Browser-based, Grid Computing platform for Node.js
