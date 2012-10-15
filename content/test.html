@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<script type="text/javascript">
+				var currentStandard = 2000,
+					tests = 50,
+				    runtime = 5000,
+					results = [];
+					
+				results.average = function(fixed) {
+					fixed = fixed || 0;
+					var sum = 0;
+					for(var i = 0; i < this.length; i++){
+						sum += parseInt(this[i]);
+					}
+
+					return (sum/this.length).toFixed(fixed);
+				}
+				results.max = function(fixed) {
+					fixed = fixed || 0;
+					var max = 0;
+					for(var i=0; i < this.length;i++) {
+						if(this[i] > max) max = this[i];
+					}
+					return max.toFixed(fixed);
+				}
+				
+				function benchmark() {
+					var runs = 0,
+						startTime = new Date();
+						
+					do {
+						var x = x = 323098.283974294 *  new Date().getTime();
+						x = (x^1.7) / 1.3;
+						
+						runs++;
+						totalTime = new Date() - startTime;
+					} while (totalTime < runtime);
+
+					return (runs / totalTime);
+				}
+				
+				function displayResults(results) {
+					var average = results.average(2),
+						score = (100* average / currentStandard).toFixed(2),
+						message = '<p>You JS score is ' + score + '  ('+results.max(2)+' max, '+results.length+' trials)</p>';
+						
+					document.getElementById("display").innerHTML = message;
+				}
+				
+				function RunTest() {
+					var button = document.getElementById("startbutton");
+					button.innerHTML = "Running Tests...";
+					setTimeout(function(){
+						for(var i=0; i< tests;i++) {
+							var result = benchmark(),
+								percent = (i / tests).toFixed(0);
+							results.push(result);
+						}
+						displayResults(results);
+						button.innerHTML = "Run More Tests";
+					}, 10);
+					
+				}
+		</script>
+	</head>
+	<body>
+		<h1>Benchmark you JS!</h1>
+		<button id="startbutton" onclick="RunTest()">Run the Test</button>
+		<div id="display"></div>
+	</body>
+</html>
+
+
