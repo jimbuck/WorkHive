@@ -1,12 +1,10 @@
-var grid = require('./lib/node-at-home.js');
+var nodeAtHome = require('../lib/node-at-home.js');
 
-var computeFunc = require('./collatz-compute.js'),
-	storeFunc = require('./collatz-store.js');
+var computeFunc = require('./collatz-compute.js');
 
 
-grid.configure({
-	compute: computeFunc,
-	store: storFunc
+var grid = nodeAtHome.createGrid({
+  compute: computeFunc
 });
 
-grid.listen('8080');
+grid.listen();
