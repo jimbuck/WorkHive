@@ -11,7 +11,7 @@
   ],
   "main": "index",
   "bin": {
-    "express": "./bin/node-at-home"
+    "node-at-home": "node ./bin/node-at-home"
   },
   "keywords": [
     "grid computing",
@@ -24,8 +24,6 @@
     "commander": "1.2.0",
     "mkdirp": "0.3.5"
   },
-  "noAnalyze": true,
-  "license": "Apache",
   "engines": {
     "node": ">=0.6.14"
   },
