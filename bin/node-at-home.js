@@ -21,7 +21,7 @@ program
   .option('-p, --password', 'password for admin')
   .parse(process.argv);
 
-// Path
+// Name
 
 var path = program.args.shift() || '.';
 
@@ -29,38 +29,32 @@ var path = program.args.shift() || '.';
 
 var eol = os.EOL
 
-// Template engine
-
-program.template = 'jade';
-
 /**
- * Routes index template.
+ * Config file template.
  */
 
-var index = [
-    ''
-  , '/*'
-  , ' * GET home page.'
-  , ' */'
+var configTemplate = [
+    'module.exports = {'
+  , '    compute: function (input, done) {'
+  , '        // Write the work code here and simply use the'
+  , '        // async-friendly "done" function to return the result.'
+  , '        done({/* result */});'
+  , '    },'
+  , '    nextDataSet: function(done) {'
   , ''
-  , 'exports.index = function(req, res){'
-  , '  res.render(\'index\', { title: \'Express\' });'
-  , '};'
-].join(eol);
-
-/**
- * Routes users template.
- */
-
-var users = [
-    ''
-  , '/*'
-  , ' * GET users listing.'
-  , ' */'
+  , '        // Write the input generation code here and simply use the'
+  , '        // async-friendly "done" function to return the input dataset.'
+  , '        done({/* input */});'
   , ''
-  , 'exports.list = function(req, res){'
-  , '  res.send("respond with a resource");'
-  , '};'
+  , '    },'
+  , '    validate: function(result, done) {'
+  , ''
+  , '        // Verify the result data and use the'
+  , '        // async-friendly "done" function to return true or false.'
+  , '        done({/* input */});'
+  , ''
+  , '    },'
+  , '}'
 ].join(eol);
 
 /**
@@ -72,34 +66,46 @@ var jadeLayout = [
   , 'html'
   , '  head'
   , '    title= title'
-  , '    link(rel=\'stylesheet\', href=\'/stylesheets/style.css\')'
+  , '    link(rel=\'stylesheet\', href=\'/style.css\')'
   , '  body'
   , '    block content'
 ].join(eol);
 
 /**
- * Jade index template.
+ * Client index template.
  */
 
-var jadeIndex = [
+var jadeClient = [
     'extends layout'
   , ''
   , 'block content'
   , '  h1= title'
-  , '  p Welcome to #{title}'
+  , '  p Thanks for contributing to #{title}!'
+].join(eol);
+
+/**
+ * Admin index template.
+ */
+
+var jadeAdmin = [
+    'extends layout'
+  , ''
+  , 'block content'
+  , '  h1= Admin'
+  , '  p Edit settings here!'
 ].join(eol);
 
 // Generate application
 
-(function createApplication(path) {
-  emptyDirectory(path, function(empty){
+(function createApplication(p) {
+  emptyDirectory(p, function(empty){
     if (empty || program.force) {
-      createApplicationAt(path);
+      createApplicationAt(p);
     } else {
-      program.confirm('destination is not empty, continue? ', function(ok){
+      program.confirm(p + ' is not empty, continue? ', function(ok){
         if (ok) {
           process.stdin.destroy();
-          createApplicationAt(path);
+          createApplicationAt(p);
         } else {
           abort('aborting');
         }
@@ -127,93 +133,25 @@ function createApplicationAt(path) {
   });
 
   mkdir(path, function(){
-    mkdir(path + '/public');
-    mkdir(path + '/public/javascripts');
-    mkdir(path + '/public/images');
-    mkdir(path + '/public/stylesheets', function(){
-      switch (program.css) {
-        case 'less':
-          write(path + '/public/stylesheets/style.less', less);
-          break;
-        case 'stylus':
-          write(path + '/public/stylesheets/style.styl', stylus);
-          break;
-        default:
-          write(path + '/public/stylesheets/style.css', css);
-      }
-    });
-
-    mkdir(path + '/routes', function(){
-      write(path + '/routes/index.js', index);
-      write(path + '/routes/user.js', users);
-    });
-
+    write(path + '/config.js', configTemplate);
+    write(path + '/client.css', '');
+    write(path + '/client.js', '');
     mkdir(path + '/views', function(){
-      switch (program.template) {
-        case 'ejs':
-          write(path + '/views/index.ejs', ejsIndex);
-          break;
-        case 'jade':
-          write(path + '/views/layout.jade', jadeLayout);
-          write(path + '/views/index.jade', jadeIndex);
-          break;
-        case 'jshtml':
-          write(path + '/views/layout.jshtml', jshtmlLayout);
-          write(path + '/views/index.jshtml', jshtmlIndex);
-          break;
-        case 'hjs':
-          write(path + '/views/index.hjs', hoganIndex);
-          break;
-
-      }
+        write(path + '/views/layout.jade', jadeLayout);
+        write(path + '/views/client.jade', jadeClient);
+        write(path + '/views/admin.jade', jadeAdmin);
     });
-
-    // CSS Engine support
-    switch (program.css) {
-      case 'less':
-        app = app.replace('{css}', eol + 'app.use(require(\'less-middleware\')({ src: __dirname + \'/public\' }));');
-        break;
-      case 'stylus':
-        app = app.replace('{css}', eol + 'app.use(require(\'stylus\').middleware(__dirname + \'/public\'));');
-        break;
-      default:
-        app = app.replace('{css}', '');
-    }
-
-    // Session support
-    app = app.replace('{sess}', program.sessions
-      ? eol + 'app.use(express.cookieParser(\'your secret here\'));' + eol + 'app.use(express.session());'
-      : '');
-
-    // Template support
-    app = app.replace(':TEMPLATE', program.template);
 
     // package.json
     var pkg = {
-        name: 'application-name'
+        name: 'grid-app'
       , version: '0.0.1'
       , private: true
-      , scripts: { start: 'node app.js' }
-      , dependencies: {
-        express: version
-      }
-    }
-
-    if (program.template) pkg.dependencies[program.template] = '*';
-
-    // CSS Engine support
-    switch (program.css) {
-      case 'less':
-        pkg.dependencies['less-middleware'] = '*';
-        break;
-      default:
-        if (program.css) {
-          pkg.dependencies[program.css] = '*';
-        }
+      , scripts: { start: 'node server.js' }
+      , dependencies: { 'node-at-home': ''+version }
     }
 
     write(path + '/package.json', JSON.stringify(pkg, null, 2));
-    write(path + '/app.js', app);
   });
 }
 
