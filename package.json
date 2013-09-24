@@ -1,6 +1,6 @@
 {
   "name": "node-at-home",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "author": "Jim Buck <jim@jimmyboh.com>",
   "description": "A lightweight, browser-based, grid computing platform built for Node.",
   "contributors": [
