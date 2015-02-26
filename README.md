@@ -1,34 +1,39 @@
-Node@home
+Nodus (formerly Node@home)
 ============
 
-This is a standalone server for creating, managing and serving work items for grid-based computational networks. Grid computing allows for client browsers to run calculations and send the result back to your server. This module makes it easy to create a server that will manage data, requests, and queueing.
+**Why a rename?** Because after 2+ years of not touching this project, I finally have time and motivation to work on it! Fresh ideas need fresh names, so while the repository is the same, the codebase is squeeky clean and ready for a much simpler approach.
 
-While Javascript does not have the highest performance, the sheer number of devices that natively run it in the browser is overwhelming.  If we can harness the javascript power on every device, the computational power would be astronomical.
+This is a standalone server for creating, managing and serving work items for grid-based computational networks. Grid computing allows for client browsers to run calculations and send the result back to your server. This standalone server handles all of the heavy lifting that is required to manage data, requests, and queueing.
+
+While Javascript does not have the highest raw performance, the sheer number of devices that natively run it in the browser is overwhelming.  My end goal is to discover the power of distributed javascript computing.  If we can harness javascript on enough devices, the computational power may be sufficient to solve complex problems in sufficient time frames.
 
 ## What can I use it for?
- - Rendering Farms and Image Processing
- - Collatz Conjecture and other Mathematical Theories
- - Statistical Simulations and other Experiments
- - Anything you can program! (Hopefully for the betterment of humanity...)
+ - Rendering and Image Processing (Render farm, image recognition, etc.)
+ - Mathematical Theories and Calculations (Collatz Conjecture, N Queens, etc.)
+ - Statistical Simulations and Experiments (Artificial Life, Physics Simulations, etc.)
+ - Anything you can write in javascript! (Hopefully for the betterment of humanity...)
 
 ## How does it work?
 
-The server is built on express and handles three main modules.
+Nodus is composed of three components:
 
- 1. Grid
-  - Serves client scripts and data
-  - Recieves and records calculated results.
- 2. Stats
-  - Displays general information and statistics for a project.
+ 1. Server
+  - [ ] Built with ExpressJS and NeDB.
+  - [ ] Serves client scripts.
+  - [ ] Manages work items in the queue.
+  - [ ] Sends work parameters and records completed results.
+ 2. Workers
+  - [ ] Executes compute functions against work parameters.
+  - [ ] Utilizes webworkers when possible.
+  - [ ] Sends results back to server.
  3. Admin
-  - Manage input data sets
-  - Edit the compute functions
- 
-Once your server is running, add `<script type="text/javascript" src="HOST:PORT/client.js"/>` and it will handle the rest!
-
-
+  - [ ] Simple web portal.
+  - [ ] View live stats.
+  - [ ] Edit the compute functions
+  - [ ] Manage work item queue.
+  - [ ] Disconnect workers.
+  - [ ] Export results to various datatypes.
+  
 ## How safe/reliable is it?
 
-Security is at the utmost importance when designing a grid computation platform. Standard defenses will be in place to protect the project against rogue data.
-
-Depending on the problem, solutions will be verified through repitition or via a validate function if supplied.
+Security is at the utmost importance when designing a grid computation platform. Standard defenses will be in place to protect the project against rogue data. Depending on the problem, solutions will be verified through repetition or via a validate function if supplied. In the mean time, be sure to use SSL, and require multiple trials before accepting the result.
