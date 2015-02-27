@@ -1,7 +1,7 @@
-Nodus (formerly Node@home)
+WorkHive (formerly Node@home)
 ============
 
-**Why a rename?** Because after 2+ years of not touching this project, I finally have time and motivation to work on it! Fresh ideas need fresh names, so while the repository is the same, the codebase is squeeky clean and ready for a much simpler approach.
+**Why a rename?** Because after 2+ years of not touching this project, I finally have time and motivation to work on it! Fresh ideas need fresh names, so while the repository is the same, the direction I want to take it is different. The codebase is squeeky clean and ready for a much simpler approach.
 
 This is a standalone server for creating, managing and serving work items for grid-based computational networks. Grid computing allows for client browsers to run calculations and send the result back to your server. This standalone server handles all of the heavy lifting that is required to manage data, requests, and queueing.
 
@@ -15,7 +15,7 @@ While Javascript does not have the highest raw performance, the sheer number of 
 
 ## How does it work?
 
-Nodus is composed of three components:
+WorkHive is composed of three components:
 
  1. Server
   - [ ] Built with ExpressJS and NeDB.
