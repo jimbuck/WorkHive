@@ -1,5 +1,5 @@
 {
-  "name": "WorkHive",
+  "name": "work-hive",
   "version": "0.0.1",
   "author": "Jim Buck <jim@jimmyboh.com>",
   "description": "A lightweight, browser-based, grid computing platform built for NodeJS.",
@@ -9,6 +9,13 @@
       "email": "jim@jimmyboh.com"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JimmyBoh/WorkHive"
+  },
+  "bugs": {
+    "url": "https://github.com/JimmyBoh/WorkHive/issues"
+  },
   "keywords": [
     "grid",
     "distributed",
@@ -19,5 +26,18 @@
     "hive",
     "worker",
     "solve"
-  ]
+  ],
+  "dependencies": {
+    "bluebird": "^2.9.13",
+    "express": "^4.12.0",
+    "igneousjs": "^0.2.6",
+    "lodash": "^3.3.1",
+    "nedb": "^1.1.1"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.5"
+  }
 }
