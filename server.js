@@ -14,6 +14,7 @@ var JsonDataStore = require('./lib/jsondatastore');
 
 var configuration = new JsonDataStore({
   path:'./config.json',
+  pretty: true,
   defaults:{
     port: 6014,
     logLevel: null // 'combined', 'common', 'short', 'dev', 'tiny'
