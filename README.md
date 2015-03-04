@@ -18,7 +18,8 @@ While Javascript does not have the highest raw performance, the sheer number of 
 WorkHive is composed of three components:
 
  1. Server
-  - [ ] Built with ExpressJS and NeDB.
+  - [x] Built with ExpressJS and Socket.io.
+  - [ ] Stores data in NeDB data store.
   - [ ] Serves client scripts.
   - [ ] Manages work items in the queue.
   - [ ] Sends work parameters and records completed results.

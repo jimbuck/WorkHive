@@ -16,3 +16,4 @@ npm-debug.log
 node_modules
 
 /iisnode
+config.json
