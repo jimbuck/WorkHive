@@ -1,12 +1,7 @@
 
-
 module.exports = function(io){
-  io.on('connection', function (socket) {
-    
-    console.log('a user connected');
-    
-    socket.on('disconnect', function () {
-      console.log('a user disconnected');
-    });
-  });
+  console.log('Loading sockets...');
+  
+  require('./channels/worker')(io);
+  require('./channels/admin')(io);
 };

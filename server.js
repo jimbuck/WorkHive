@@ -1,8 +1,8 @@
 'use strict';
 
 var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 var favicon = require('serve-favicon');
 var serveStatic = require('serve-static');
@@ -41,6 +41,6 @@ if (app.get('env') === 'development') {
 require('./routes')(app);
 require('./sockets')(io);
 
-http.listen(app.get('port'), function () {
+server.listen(app.get('port'), function () {
   console.log('WorkHive server listening on port ' + app.get('port'));
 });
