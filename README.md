@@ -38,3 +38,13 @@ WorkHive is composed of three components:
 ## How safe/reliable is it?
 
 Security is at the utmost importance when designing a grid computation platform. Standard defenses will be in place to protect the project against rogue data. Depending on the problem, solutions will be verified through repetition or via a validate function if supplied. In the mean time, be sure to use SSL, and require multiple trials before accepting the result.
+
+## Donating
+
+Help fund this project by donating, or just buy me a beer!
+
+[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/JimmyBoh/)
+
+## License
+
+MIT (See [LICENSE](https://github.com/JimmyBoh/WorkHive/blob/master/LICENSE) for more information)
