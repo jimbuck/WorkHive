@@ -2,8 +2,8 @@ var fs = require('fs');
 
 var _ = require('lodash');
 
-var Queue = require('./lib/queue');
-var PriorityQueue = require('./lib/priorityqueue');
+var Queue = require('./../lib/queue');
+var PriorityQueue = require('./../lib/priorityqueue');
 
 // Delete old queues to reset tests...
 if (fs.existsSync('people1.queue')) {
