@@ -1,17 +1,21 @@
 
 var Class = require('igneousjs/class');
 
+var console = process.console;
+
 var Problem = Class.extend({
   constructor: function(opts){
     
     opts = opts || {};
     
+    this._id = opts._id;
     this.name = opts.name;
     this.generate = opts.generate;
     this.compute = opts.compute;
     this.verify = opts.verify;
     this.minCompute = opts.minCompute || 1;
     this.minVerify = opts.minVerify || 1;
+    
     
     //this.report = opts.report || function(data){return data;};
     

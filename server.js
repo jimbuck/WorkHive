@@ -4,9 +4,9 @@ var app = require('express')();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+var scribe = require('scribe-js')();
 var favicon = require('serve-favicon');
 var serveStatic = require('serve-static');
-var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 
@@ -16,18 +16,15 @@ var configuration = new JsonDataStore({
   path:'./config.json',
   pretty: true,
   defaults:{
-    port: 6014,
-    logLevel: null // 'combined', 'common', 'short', 'dev', 'tiny'
+    port: 6014
   }
 });
 
 var config = configuration.get();
 
-// all environments
-if(config.logLevel) {
-  app.use(morgan(config.logLevel));
-}
 app.set('port', config.port);
+app.use(scribe.express.logger());
+app.use('/logs', scribe.webPanel());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 //app.use(favicon('./public/favicon.ico'));
@@ -37,6 +34,8 @@ app.use('/', serveStatic('./public'));
 if (app.get('env') === 'development') {
   app.use(errorHandler());
 }
+
+var console = process.console;
 
 require('./routes')(app);
 require('./sockets')(io);

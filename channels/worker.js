@@ -2,6 +2,7 @@
  * Worker Channel
  */
 
+var console = process.console;
 
 module.exports = function (io) {
 

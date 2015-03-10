@@ -3,13 +3,20 @@ var Promise = require('bluebird');
 var DataStore = require('nedb');
 var Class = require('igneousjs/class');
 
+var Problem = require('./problem');
+
+var console = process.console;
+
 var Problems = Class.extend({
-  constructor: function(){
+  constructor: function(opts){
     
-    var opts = {
-      filename: 'problems.db',
-      autoload: true
-    };
+    opts = opts || {};
+    
+    // Set the database file name.
+    opts.filename = opts.filename || 'problems.db';
+    
+    // Ensure that the database loads immediately.
+    opts.autoload = true;
     
     this._db = new DataStore(opts);
   },
@@ -36,6 +43,11 @@ var Problems = Class.extend({
         if (err) {
           reject(err);
         } else {
+          
+          for(var i = 0, prob; prob = probs[i++];){
+            probs[i] = new Problem(prob);
+          }
+
           resolve(probs);
         }
       });
@@ -47,6 +59,8 @@ var Problems = Class.extend({
         if(err){
           reject(err);
         } else {
+          prob = new Problem(prob);
+          
           resolve(prob);
         }
       });
@@ -58,6 +72,7 @@ var Problems = Class.extend({
         if(err){
           reject(err);
         } else {
+          newItem = new Problem(newItem);
           resolve(newItem);
         }
       });
