@@ -10,9 +10,9 @@ var serveStatic = require('serve-static');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 
-var JsonDataStore = require('./lib/jsondatastore');
+var JsonConfiguration = require('./lib/jsonconfiguration');
 
-var configuration = new JsonDataStore({
+var configuration = new JsonConfiguration({
   path:'./config.json',
   pretty: true,
   defaults:{
@@ -27,7 +27,7 @@ app.use(scribe.express.logger());
 app.use('/logs', scribe.webPanel());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-//app.use(favicon('./public/favicon.ico'));
+app.use(favicon('./public/favicon.ico'));
 app.use('/', serveStatic('./public'));
 
 // development only

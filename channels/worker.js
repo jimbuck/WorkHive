@@ -10,8 +10,6 @@ module.exports = function (io) {
   
   var workerSocket = io.of('/worker');
   
-  console.dir(workerSocket.on);
-  
   workerSocket.on('connect', function (socket) {
     console.log('Worker connected');
     
