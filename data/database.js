@@ -1,13 +1,17 @@
+/**
+ * Database
+ */
 
 var Promise = require('bluebird');
 var DataStore = require('nedb');
 var Class = require('igneousjs/class');
 
 var Problem = require('./problem');
+var Result = require('./result');
 
 var console = process.console;
 
-var Problems = Class.extend({
+var Database = Class.extend({
   constructor: function(opts){
     
     opts = opts || {};
@@ -20,7 +24,7 @@ var Problems = Class.extend({
     
     this._db = new DataStore(opts);
   },
-  add: function(prob){    
+  addProblem: function(prob){    
     return new Promise(function (resolve, reject) {
       if(!prob.name) {
         throw new Error('Problem must have a name!');
@@ -37,7 +41,7 @@ var Problems = Class.extend({
       });
     });
   },
-  all: function(){
+  allProblems: function(){
     return new Promise(function (resolve, reject) {
       this._db.find({}, function (err, probs) {
         if (err) {
@@ -53,7 +57,7 @@ var Problems = Class.extend({
       });
     });
   },
-  getById: function(id){
+  getProblemById: function(id){
     return new Promise(function (resolve, reject) {
       this._db.findOne({_id: id}, function(err, prob){
         if(err){
@@ -66,7 +70,7 @@ var Problems = Class.extend({
       });
     });
   },
-  getByName: function (name) {
+  getProblemByName: function (name) {
     return new Promise(function (resolve, reject) {
       this._db.findOne({name: name}, function (err, prob) {
         if (err) {
@@ -79,7 +83,7 @@ var Problems = Class.extend({
       });
     });
   },
-  update: function(prob){
+  updateProblem: function(prob){
     return new Promise(function (resolve, reject) {
       this._db.update({_id: prob._id}, prob, {}, function(err, numReplaced, newItem){
         if(err){
@@ -91,7 +95,7 @@ var Problems = Class.extend({
       });
     });
   },
-  'delete': function(id){
+  deleteProblem: function(id){
     return new Promise(function (resolve, reject) {
       this._db.remove({_id: id}, function(err, numRemoved){
         if(err) {
@@ -101,7 +105,18 @@ var Problems = Class.extend({
         }
       });
     });
+  },
+  getResults: function(probName){
+    return this.getProblemByName(probName).then(function (prob) {
+      return prob.results.map(function(r){ return new Result(r); });
+    });
+  },
+  addResult: function(probName, result){
+    return this.getProblemByName(probName).then(function(prob){
+      prob.result.push(result);
+      return this.updateProblem(prob);
+    });
   }
 });
 
-module.exports = Problems;
+module.exports = Database;

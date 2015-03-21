@@ -10,8 +10,7 @@ var Task = Class.extend({
     if(typeof opts.action !== 'function'){
       throw new Error('No `action` specified!');
     }
-
-    //this._id = opts._id;
+    
     this.problem = opts.problem; // name of the problem
     this.action = opts.action;
     this.createdDate = opts.createdDate || new Date();
