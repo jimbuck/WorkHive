@@ -12,10 +12,11 @@ var Task = Class.extend({
     }
 
     //this._id = opts._id;
+    this.problem = opts.problem; // name of the problem
     this.action = opts.action;
     this.createdDate = opts.createdDate || new Date();
     this.completedDate = opts.completedDate;
-    this.data = opts.data || {};
+    this.args = opts.args || {};
     this.result = opts.result;
   }
 });

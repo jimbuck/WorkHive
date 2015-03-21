@@ -15,9 +15,17 @@ module.exports = function (io) {
   workerSocket.on('connect', function (socket) {
     console.log('Worker connected');
     
-    socket.on('solution', function(result){
+    socket.on('done', function(problem){
       // Store result in DB.
-      sendNewProblem(socket);
+      saveResult(problem).then(function(){
+        // Send a new problem.
+        sendNewProblem(socket);
+      });
+    });
+
+    socket.on('fork', function (args) {
+      // Add a new problem to the queue.
+      addNewProblem(args)
     });
     
     socket.on('disconnect', function(){
@@ -29,23 +37,19 @@ module.exports = function (io) {
   });
 };
 
+function saveResult(problem){
+  // TODO: Save the problem.result to the db.
+}
+
+function addNewProblem(args){
+  // TODO: Add new problem to the queue...
+}
+
 function sendNewProblem(sock) {
 
   // Grab problem from DB.
-  var problem = getNewProblem();
+  var problem = {}; // TODO: Get next problem from queue.
 
   // And return to sender.
   sock.emit(problem);
 }
-
-function getNewProblem() {
-  return {
-    action: (function (done) {
-
-
-      done();
-    })
-  }
-}
-
-

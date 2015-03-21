@@ -2,24 +2,29 @@
 var socket = io(location.origin + '/worker');
 
 socket.on('connect', function(){
-  alert('Connected to Workers!');
+  console.log('Connected as a worker!');
   
   socket.on('work', function(problem){
-    
-    var fork = (function(data){
-      
+    console.log('Work received!')
+    var fork = (function(args){
+      socket.emit('fork', {
+        name: problem.name,
+        args: args
+      });
+      console.log('Problem forked!');
     }).bind(this);
     
-    var done = (function(){
-      
+    var done = (function(result){
+      problem.result = result;
+      socket.emit('done', problem);
+      console.log('Done computing!');
     }).bind(this);
     
-    problem.action.call(this, problem.data, fork, done)
-  });
-  
-  // ask for work
-  // run the function
-  // return the result
-  // repeat
-  
+    problem.action.call(this, {
+      name: problem.name,
+      args: problem.args, 
+      fork: fork,
+      done: done
+    });
+  });  
 });

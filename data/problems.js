@@ -53,7 +53,7 @@ var Problems = Class.extend({
       });
     });
   },
-  get: function(id){
+  getById: function(id){
     return new Promise(function (resolve, reject) {
       this._db.findOne({_id: id}, function(err, prob){
         if(err){
@@ -61,6 +61,19 @@ var Problems = Class.extend({
         } else {
           prob = new Problem(prob);
           
+          resolve(prob);
+        }
+      });
+    });
+  },
+  getByName: function (name) {
+    return new Promise(function (resolve, reject) {
+      this._db.findOne({name: name}, function (err, prob) {
+        if (err) {
+          reject(err);
+        } else {
+          prob = new Problem(prob);
+
           resolve(prob);
         }
       });
